@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: "gatewayserver"   # This name is used for:
+                            # - identifying the service in logs and metrics
+                            # - registering with discovery services (Eureka, Consul)
+                            # - fetching remote configuration from Config Server
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              lower-case-service-id: true     # 👈 When using service discovery (like Eureka),
+                                              # convert all discovered service IDs to lowercase.
+              enabled: false      # if its true the Gateway will automatically create routes
+                                  # for all services registered in Eureka, e.g.
+                                  # If Eureka knows about a service called orderservice,
+                                  # you can access it via: http://localhost:8080/orderservice/**
+                                  # and the Gateway will route it automatically.
+                                  # If it’s false, you’ll have to manually define routes.
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "Eazy Bank Gateway Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      hdbani:
+        gatewayserver: DEBUG
