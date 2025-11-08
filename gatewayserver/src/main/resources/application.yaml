@@ -42,5 +42,5 @@ info:
 logging:
   level:
     com:
-      hdbani:
+      eazybytes:
         gatewayserver: DEBUG
